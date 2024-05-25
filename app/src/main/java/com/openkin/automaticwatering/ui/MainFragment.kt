@@ -12,10 +12,6 @@ import com.openkin.automaticwatering.databinding.FragmentMainBinding
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
-    private val tabs = listOf(
-        StatusFragment.createFragment(),
-        SetupFragment.createFragment()
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,12 +33,16 @@ class MainFragment : Fragment() {
 
     private fun initViewPager() {
         activity?.let {
-            val viewPagerAdapter = ViewPagerAdapter(it, tabs)
+            val tabs = listOf(
+                StatusFragment.createFragment(),
+                SetupFragment.createFragment()
+            )
             val tabTitles = listOf(
                 getString(R.string.tab_status_title),
                 getString(R.string.tab_mode_title)
             )
-            binding.viewPager.adapter = viewPagerAdapter
+
+            binding.viewPager.adapter = ViewPagerAdapter(it, tabs)
             TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
                 tab.text = tabTitles[position]
             }.attach()
