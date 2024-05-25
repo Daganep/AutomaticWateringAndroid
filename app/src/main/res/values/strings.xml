@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AutomaticWatering</string>
+    <string name="screen_title">Автополивалка</string>
+    <string name="tab_status_title">Статус системы</string>
+    <string name="tab_mode_title">Режим полива</string>
+    <string name="description_for_tab_layout">Переключатель экранов</string>
 </resources>
