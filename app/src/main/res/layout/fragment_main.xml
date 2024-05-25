@@ -21,7 +21,7 @@
     <ImageView
         android:id="@+id/title_divider"
         android:layout_width="0dp"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/black"
         app:layout_constraintTop_toBottomOf="@id/title_background"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,13 +51,11 @@
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tab_status_title" />
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tab_mode_title" />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.tabs.TabLayout>
 

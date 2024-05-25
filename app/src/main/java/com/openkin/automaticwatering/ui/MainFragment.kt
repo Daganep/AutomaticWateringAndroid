@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.openkin.automaticwatering.R
 import com.openkin.automaticwatering.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
@@ -31,21 +32,21 @@ class MainFragment : Fragment() {
     }
 
     private fun initUi() {
-        initTabSelectListener()
+        initViewPager()
     }
 
-    private fun initTabSelectListener() {
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) { }
-        })
+    private fun initViewPager() {
+        activity?.let {
+            val viewPagerAdapter = ViewPagerAdapter(it, tabs)
+            val tabTitles = listOf(
+                getString(R.string.tab_status_title),
+                getString(R.string.tab_mode_title)
+            )
+            binding.viewPager.adapter = viewPagerAdapter
+            TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+                tab.text = tabTitles[position]
+            }.attach()
+        }
     }
 
     companion object {
