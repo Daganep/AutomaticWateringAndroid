@@ -6,6 +6,22 @@
 
     <string name="tab_status_title">Статус системы</string>
     <string name="tab_mode_title">Режим полива</string>
+    <string name="status_label_auto_watering">Автополив:</string>
+    <string name="status_label_wet">Влажность:</string>
+    <string name="status_label_temperature">Темп. воздуха:</string>
+    <string name="status_label_last_watering">Прошлый полив:</string>
+    <string name="status_label_next_watering">Следующий полив:</string>
+    <string name="status_label_watering_mode">Режим:</string>
+    <string name="status_label_capacity">Объем:</string>
 
+    <string name="setup_label_schedule_mode">По расписанию</string>
+    <string name="setup_label_start_date">Начать с</string>
+    <string name="setup_label_end_date">Закончить</string>
+    <string name="setup_label_watering_time">Время полива</string>
+    <string name="setup_label_wet_mode">По влажности\nпочвы</string>
+    <string name="setup_label_wet_level">Полить если\nвлажность ниже</string>
+    <string name="setup_label_capacity">Объем полива</string>
+
+    <string name="description_status_background_image">Фото комнатного растения</string>
     <string name="description_for_tab_layout">Переключатель экранов</string>
 </resources>

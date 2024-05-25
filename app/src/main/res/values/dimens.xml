@@ -2,4 +2,8 @@
 <resources>
     <dimen name="status_field_start_margin">24dp</dimen>
     <dimen name="status_field_top_margin">16dp</dimen>
+
+    <dimen name="setup_field_end_margin">24dp</dimen>
+    <dimen name="setup_field_top_margin">16dp</dimen>
+    <dimen name="grey_divider_height">2dp</dimen>
 </resources>
