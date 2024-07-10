@@ -24,4 +24,10 @@
 
     <string name="description_status_background_image">Фото комнатного растения</string>
     <string name="description_for_tab_layout">Переключатель экранов</string>
+
+    //Экран подключения к устройству
+    <string name="connecting_title">Устанавливается подключение</string>
+    <string name="connecting_error">Ошибка подключения</string>
+    <string name="not_connected_title">Отсутствует подключение\nк системе полива</string>
+    <string name="try_to_connect_button">Подключиться</string>
 </resources>
