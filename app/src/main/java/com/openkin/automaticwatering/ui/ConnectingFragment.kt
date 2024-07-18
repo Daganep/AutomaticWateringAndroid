@@ -17,8 +17,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.openkin.automaticwatering.R
 import com.openkin.automaticwatering.databinding.FragmentConnectingBinding
 import com.openkin.automaticwatering.utils.Constants
+import com.openkin.automaticwatering.utils.Constants.EMPTY
+import com.openkin.automaticwatering.utils.Constants.TAG
+import com.openkin.automaticwatering.utils.Constants.UNEXPECTED_STATE
 
-class ConnectingFragment : Fragment(), BluetoothController.Listener {
+class ConnectingFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
     private var sharedPrefs: SharedPreferences? = null
@@ -38,15 +41,24 @@ class ConnectingFragment : Fragment(), BluetoothController.Listener {
         super.onViewCreated(view, savedInstanceState)
         initSharedPrefs()
         initUi()
+        observeControllerState()
         initBluetoothAdapter()
         initBluetoothController()
         connectToDevice()
     }
 
-    private fun initUi() {
-        binding.tryToConnectButton.setOnClickListener {
-            tryToConnect()
+    private fun observeControllerState() {
+        viewModel.controllerState.observe(viewLifecycleOwner) { state ->
+            when(state) {
+                is ConnectedState -> onConnected()
+                is ErrorState -> onError(state.error)
+                else -> Log.e(TAG, UNEXPECTED_STATE)
+            }
         }
+    }
+
+    private fun initUi() {
+        binding.tryToConnectButton.setOnClickListener { tryToConnect() }
     }
 
     private fun initSharedPrefs() {
@@ -66,10 +78,10 @@ class ConnectingFragment : Fragment(), BluetoothController.Listener {
     }
 
     private fun connectToDevice() {
-        val macAddress = sharedPrefs?.getString(Constants.CONNECTED_DEVICE_MAC_ADDRESS, "")
+        val macAddress = sharedPrefs?.getString(Constants.CONNECTED_DEVICE_MAC_ADDRESS, EMPTY)
         val isBluetoothOn = bluetoothAdapter.isEnabled
         if(!macAddress.isNullOrEmpty() && isBluetoothOn) {
-            bluetoothController.connect(macAddress, this)
+            viewModel.connectToDevice(bluetoothController, macAddress)
         } else {
             activity?.supportFragmentManager
                 ?.beginTransaction()
@@ -80,10 +92,10 @@ class ConnectingFragment : Fragment(), BluetoothController.Listener {
     }
 
     private fun tryToConnect() {
-        val macAddress = sharedPrefs?.getString(Constants.CONNECTED_DEVICE_MAC_ADDRESS, "")
+        val macAddress = sharedPrefs?.getString(Constants.CONNECTED_DEVICE_MAC_ADDRESS, EMPTY)
         val isBluetoothOn = bluetoothAdapter.isEnabled
         if(!macAddress.isNullOrEmpty() && isBluetoothOn) {
-            bluetoothController.connect(macAddress, this)
+            viewModel.connectToDevice(bluetoothController, macAddress)
             binding.connectingImage.isVisible = true
             binding.connectingLabel.isVisible = true
             binding.notConnectedLabel.isVisible = false
@@ -91,7 +103,7 @@ class ConnectingFragment : Fragment(), BluetoothController.Listener {
         }
     }
 
-    override fun onConnected() {
+    private fun onConnected() {
         activity?.runOnUiThread {
             activity?.supportFragmentManager
                 ?.beginTransaction()
@@ -101,9 +113,8 @@ class ConnectingFragment : Fragment(), BluetoothController.Listener {
         }
     }
 
-    override fun onDisconnected() { }
-
-    override fun onError(error: String) {
+    private fun onError(error: String) {
+        Log.e(TAG, error)
         activity?.runOnUiThread {
             Snackbar.make(binding.root,
                 getString(R.string.connecting_error),
@@ -116,16 +127,12 @@ class ConnectingFragment : Fragment(), BluetoothController.Listener {
                 tryToConnectButton.isVisible = true
             }
         }
-        Log.e(TAG, error)
     }
-
-    override fun onMessageReceived(message: String) { }
 
     companion object {
         @JvmStatic
         fun createFragment(extras: Bundle? = null) = ConnectingFragment().apply {
             arguments = extras ?: Bundle()
         }
-        private const val TAG = "AutoWatering"
     }
 }
