@@ -2,7 +2,8 @@
     <string name="app_name">AutomaticWatering</string>
 
     <string name="screen_title">Автополивалка</string>
-    <string name="watering_title">Полить</string>
+    <string name="start_watering">Полить</string>
+    <string name="stop_watering">Остановить</string>
 
     <string name="tab_status_title">Статус системы</string>
     <string name="tab_mode_title">Режим полива</string>
