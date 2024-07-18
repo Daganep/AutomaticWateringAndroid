@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.bt.bluetooth.BluetoothController
+import com.openkin.automaticwatering.utils.ControllerCommands.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -21,7 +22,15 @@ class MainViewModel : ViewModel(), BluetoothController.Listener {
         bluetoothController.connect(macAddress, this)
     }
 
-    fun parseReceivedMessage(message: String) {
+    fun startWatering() {
+        bluetoothController.sendMessage(WATERING_ON.name)
+    }
+
+    fun stopWatering() {
+        bluetoothController.sendMessage(WATERING_OFF.name)
+    }
+
+    private fun parseReceivedMessage(message: String) {
         _controllerState.value = ReceivedMessageState(message)
     }
 
