@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.bt.ui.DeviceListFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.openkin.automaticwatering.R
 import com.openkin.automaticwatering.databinding.FragmentMainBinding
+import com.openkin.automaticwatering.utils.ControllerCommand.WATERING_ON
+import com.openkin.automaticwatering.utils.ControllerCommand.WATERING_OFF
 
 class MainFragment : Fragment() {
 
@@ -60,9 +63,17 @@ class MainFragment : Fragment() {
 
     private fun switchWatering() {
         if (wateringInProgress) {
-            viewModel.startWatering()
+            viewModel.sendCommand(WATERING_ON)
+            binding.wateringButton.setBackgroundColor( //не работает
+                ContextCompat.getColor(requireActivity(), R.color.red)
+            )
+            binding.wateringButton.setText(R.string.stop_watering)
         } else {
-            viewModel.stopWatering()
+            viewModel.sendCommand(WATERING_OFF)
+            binding.wateringButton.setBackgroundColor(
+                ContextCompat.getColor(requireActivity(), R.color.green)
+            )
+            binding.wateringButton.setText(R.string.start_watering)
         }
         wateringInProgress = !wateringInProgress
     }
